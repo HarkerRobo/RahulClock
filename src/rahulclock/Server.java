@@ -3,8 +3,10 @@ package rahulclock;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 import java.util.function.Consumer;
 
 public class Server extends Thread {
@@ -35,10 +37,27 @@ public class Server extends Thread {
     public class AcceptThread extends Thread {
 
         private Socket sock;
+        private OutputStreamWriter out;
 
         public AcceptThread(Socket sock) {
             this.sock = sock;
             setDaemon(true);
+            try {
+                out = new OutputStreamWriter(sock.getOutputStream());
+                sendTime();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void sendTime() {
+            System.out.println("sending time");
+            try {
+                out.write(new Date().getTime() + "\n");
+                out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
 
         @Override
@@ -54,7 +73,7 @@ public class Server extends Thread {
                         timer = new Timer(minutes, timeAccepter);
                         timer.start();
                     } catch (NumberFormatException e) {
-                        e.printStackTrace();
+                        sendTime();
                     }
                 }
             } catch (IOException e) {
