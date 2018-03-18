@@ -1,0 +1,26 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '2.0.2'
+}
+
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+sourceSets {
+    main {
+        java { srcDir 'src' }
+        resources { srcDir 'resources' }
+    }
+    test {
+        java { srcDir 'test' }
+    }
+}
+
+mainClassName = 'rahulclock.App'
+targetCompatibility = '1.8'
+
+eclipse.classpath.file.whenMerged {
+    def container = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
+    container.accessRules << new org.gradle.plugins.ide.eclipse.model.AccessRule("accessible", "javafx/**")
+}
