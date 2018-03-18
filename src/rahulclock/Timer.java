@@ -2,6 +2,10 @@ package rahulclock;
 
 import java.util.function.Consumer;
 
+/**
+ * A thread that counts down from a given number of minutes. Every second, the time will decrease by
+ * 1 second, and the timer will pass the formatted time to the given String Consumer.
+ */
 public class Timer extends Thread {
 
     private int displayseconds = 0;

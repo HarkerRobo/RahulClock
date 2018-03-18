@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.function.Consumer;
 
+/**
+ * The server that handles receiving timer times and sending timestamps
+ */
 public class Server extends Thread {
 
     public static final int PORT = 5801;
