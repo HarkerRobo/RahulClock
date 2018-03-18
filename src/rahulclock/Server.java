@@ -44,7 +44,6 @@ public class Server extends Thread {
             setDaemon(true);
             try {
                 out = new OutputStreamWriter(sock.getOutputStream());
-                sendTime();
             } catch (IOException e) {
                 e.printStackTrace();
             }
