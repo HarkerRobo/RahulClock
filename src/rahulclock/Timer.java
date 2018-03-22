@@ -3,7 +3,7 @@ package rahulclock;
 import java.util.function.Consumer;
 
 /**
- * A thread that counts down from a given number of minutes. Every second, the time will decrease by
+ * A thread that counts down from a given number of seconds. Every second, the time will decrease by
  * 1 second, and the timer will pass the formatted time to the given String Consumer.
  */
 public class Timer extends Thread {
@@ -14,8 +14,8 @@ public class Timer extends Thread {
     private long startTime;
     private boolean running = true;
 
-    public Timer(int minutes, Consumer<String> acceptor) {
-        displayseconds = minutes * 60;
+    public Timer(int seconds, Consumer<String> acceptor) {
+        displayseconds = seconds;
         timeAcceptor = acceptor;
     }
 
