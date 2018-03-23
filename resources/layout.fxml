@@ -9,11 +9,11 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rahulclock.Controller" >
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rahulclock.Controller" fx:id="pane">
     <center>
-        <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0" text="10:13" BorderPane.alignment="CENTER">
+        <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0" text="123..." BorderPane.alignment="CENTER">
             <font>
-                <Font name="SF Pixelate Bold" size="61.0" />
+                <Font name="SF Pixelate Bold" size="200.0" />
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" />

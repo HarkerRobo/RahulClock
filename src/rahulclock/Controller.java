@@ -1,6 +1,9 @@
 package rahulclock;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -9,10 +12,19 @@ import javafx.scene.text.Text;
  */
 public class Controller {
     @FXML private Text time;
+    @FXML private BorderPane bp;
 
     @FXML public void initialize() {
-        Font font = Font.loadFont(getClass().getResource("/font/SFPixelateShaded-Bold.ttf").toExternalForm(), 60);
+        Font font = Font.loadFont(getClass().getResource("/font/SFPixelateShaded-Bold.ttf").toExternalForm(), time.getFont().getSize());
         time.setFont(font);
-        new Server(time::setText).start();
+
+        Server server = new Server(time::setText);
+        server.start();
+
+        new Connector(() -> {
+            Platform.runLater(() -> {
+                bp.getScene().setFill(Color.WHITE);
+            });
+        }, server).start();
     }
 }

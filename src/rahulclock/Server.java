@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The server that handles receiving timer times and sending timestamps
@@ -17,6 +19,7 @@ public class Server extends Thread {
     public static final int PORT = 5801;
 
     private static Consumer<String> timeAccepter;
+    private static Logger logger = Logger.getLogger(Server.class.getName());
     private Timer timer;
 
     public Server(Consumer<String> acc) {
@@ -31,9 +34,13 @@ public class Server extends Thread {
 	            new AcceptThread(sock.accept()).start();
 	        }
         } catch (IOException e) {
-            System.err.println("Could not start server");
+            logger.severe("Could not start server");
             System.exit(-1);
         }
+    }
+
+    public void addSocket(Socket sock) {
+        new AcceptThread(sock).start();
     }
 
 
@@ -48,17 +55,17 @@ public class Server extends Thread {
             try {
                 out = new OutputStreamWriter(sock.getOutputStream());
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "Could not open output stream", e);
             }
         }
 
         private void sendTime() {
-            System.out.println("sending time");
+            logger.info("sending time");
             try {
                 out.write(new Date().getTime() + "\n");
                 out.flush();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.log(Level.WARNING, "Could not send time", e);
 			}
         }
 
@@ -79,7 +86,7 @@ public class Server extends Thread {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, "error reading line", e);
             }
         }
 
