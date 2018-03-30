@@ -26,6 +26,10 @@ public class Controller {
                 System.out.println(pane.getScene());
                 pane.getScene().setFill(Color.WHITE);
             });
+        }, () -> {
+            Platform.runLater(() -> {
+                pane.getScene().setFill(Color.GREY);
+            });
         }, server).start();
     }
 }

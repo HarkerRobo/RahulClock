@@ -9,11 +9,13 @@ public class Connector extends Thread {
 
     private Server serv;
     private Runnable onConnect;
+    private Runnable onError;
     private static Logger logger = Logger.getLogger(Connector.class.getName());
 
-    public Connector(Runnable onConnect, Server serv) {
+    public Connector(Runnable onConnect, Runnable onError, Server serv) {
         setDaemon(true);
         this.onConnect = onConnect;
+        this.onError = onError;
         this.serv = serv;
     }
 
@@ -26,7 +28,10 @@ public class Connector extends Thread {
                 logger.info("Connected to server");
                 onConnect.run();
                 logger.info("Changed screen color");
-                serv.addSocket(sock);
+                serv.addSocket(sock, () -> {
+                    onError.run();
+                    run();
+                });
                 break;
             } catch (Exception e) {
                 logger.log(Level.WARNING, "Error connecting to robot", e);

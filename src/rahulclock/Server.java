@@ -31,7 +31,7 @@ public class Server extends Thread {
     public void run() {
         try (ServerSocket sock = new ServerSocket(5801)) {
             while (true) {
-	            new AcceptThread(sock.accept()).start();
+	            new AcceptThread(sock.accept(), ()->{}).start();
 	        }
         } catch (IOException e) {
             logger.severe("Could not start server");
@@ -39,8 +39,8 @@ public class Server extends Thread {
         }
     }
 
-    public void addSocket(Socket sock) {
-        new AcceptThread(sock).start();
+    public void addSocket(Socket sock, Runnable onQuit) {
+        new AcceptThread(sock, onQuit).start();
     }
 
 
@@ -48,9 +48,11 @@ public class Server extends Thread {
 
         private Socket sock;
         private OutputStreamWriter out;
+        private Runnable onQuit;
 
-        public AcceptThread(Socket sock) {
+        public AcceptThread(Socket sock, Runnable onQuit) {
             this.sock = sock;
+            this.onQuit = onQuit;
             setDaemon(true);
             try {
                 out = new OutputStreamWriter(sock.getOutputStream());
@@ -89,6 +91,7 @@ public class Server extends Thread {
             } catch (IOException e) {
                 logger.log(Level.WARNING, "error reading line", e);
             }
+            onQuit.run();
         }
 
     }
