@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
  */
 public class Controller {
     @FXML private Text time;
-    @FXML private BorderPane bp;
+    @FXML private BorderPane pane;
 
     @FXML public void initialize() {
         Font font = Font.loadFont(getClass().getResource("/font/SFPixelateShaded-Bold.ttf").toExternalForm(), time.getFont().getSize());
@@ -23,7 +23,8 @@ public class Controller {
 
         new Connector(() -> {
             Platform.runLater(() -> {
-                bp.getScene().setFill(Color.WHITE);
+                System.out.println(pane.getScene());
+                pane.getScene().setFill(Color.WHITE);
             });
         }, server).start();
     }

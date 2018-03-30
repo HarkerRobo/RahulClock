@@ -35,7 +35,7 @@ public class Server extends Thread {
 	        }
         } catch (IOException e) {
             logger.severe("Could not start server");
-            System.exit(-1);
+            // System.exit(-1);
         }
     }
 
@@ -76,6 +76,7 @@ public class Server extends Thread {
             )) {
                 String line = null;
                 while ((line = in.readLine()) != null) {
+                    logger.info("Got line " + line);
                     try {
                         int minutes = Integer.parseInt(line);
                         if (timer != null) timer.end();

@@ -22,7 +22,7 @@ public class Connector extends Thread {
         while (true) {
             try {
                 Socket sock = new Socket();
-                sock.connect(new InetSocketAddress("10.10.72.2", 5808), 5000);
+                sock.connect(new InetSocketAddress("10.10.72.2", 5808), 3000);
                 logger.info("Connected to server");
                 onConnect.run();
                 logger.info("Changed screen color");
@@ -30,6 +30,11 @@ public class Connector extends Thread {
                 break;
             } catch (Exception e) {
                 logger.log(Level.WARNING, "Error connecting to robot", e);
+                try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
             }
         }
     }
